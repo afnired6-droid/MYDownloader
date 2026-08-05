@@ -1,0 +1,51 @@
+# Secrets
+.env
+.env.local
+.env.*
+
+# Telegram session
+*.session
+*.session-journal
+config/*.session
+config/downloader_session*
+
+# Cookies
+cookies.txt
+*.cookies
+cookies*.txt
+
+# Runtime data
+downloads/
+temp/
+temp_media/
+config/history.json
+history.json
+*.log
+
+# Media files
+*.mp4
+*.mp3
+*.jpg
+*.png
+*.webp
+*.gif
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

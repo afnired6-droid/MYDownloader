@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ms" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0614" />
+  <meta name="description" content="MYDownloader PRO — Universal Social Media Downloader by afnirwd" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MYDownloader" />
+  <title>MYDownloader PRO · afnirwd</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="/static/favicon.png" />
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root, [data-theme="dark"] {
+      --bg0: #07050f;
+      --bg1: #0e0a1a;
+      --glass: rgba(22, 16, 40, 0.72);
+      --glass2: rgba(30, 22, 55, 0.55);
+      --border: rgba(183, 148, 244, 0.18);
+      --border2: rgba(255, 215, 0, 0.12);
+      --text: #f4f0ff;
+      --muted: #9b8ec4;
+      --accent: #c4b5fd;
+      --accent2: #a78bfa;
+      --gold: #f6e05e;
+      --gold2: #d69e2e;
+      --ok: #68d391;
+      --err: #fc8181;
+      --cyan: #63b3ed;
+      --btn: linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #6d28d9 100%);
+      --btn-hover: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+      --shadow: 0 20px 50px rgba(0,0,0,0.45);
+      --radius: 18px;
+    }
+    [data-theme="light"] {
+      --bg0: #f5f3ff;
+      --bg1: #ede9fe;
+      --glass: rgba(255,255,255,0.82);
+      --glass2: rgba(255,255,255,0.65);
+      --border: rgba(109, 40, 217, 0.15);
+      --border2: rgba(214, 158, 46, 0.2);
+      --text: #1a1033;
+      --muted: #6b5b8c;
+      --accent: #6d28d9;
+      --accent2: #7c3aed;
+      --gold: #b7791f;
+      --gold2: #975a16;
+      --ok: #276749;
+      --err: #c53030;
+      --cyan: #2b6cb0;
+      --btn: linear-gradient(135deg, #7c3aed, #5b21b6);
+      --btn-hover: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      --shadow: 0 16px 40px rgba(91, 33, 182, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: "Outfit", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124, 58, 237, 0.28), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 90% 0%, rgba(246, 224, 94, 0.08), transparent 45%),
+        radial-gradient(ellipse 50% 50% at 50% 100%, rgba(99, 102, 241, 0.12), transparent 50%),
+        linear-gradient(165deg, var(--bg0), var(--bg1));
+      background-attachment: fixed;
+      padding: 20px 16px 48px;
+      line-height: 1.45;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+
+    /* —— Header —— */
+    .hero {
+      position: relative;
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px 22px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(167,139,250,0.08), transparent 40%, rgba(246,224,94,0.05));
+      pointer-events: none;
+    }
+    .hero-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; position: relative; z-index: 1;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .logo {
+      width: 52px; height: 52px; border-radius: 16px;
+      background: linear-gradient(145deg, rgba(167,139,250,0.35), rgba(246,224,94,0.15));
+      border: 1px solid var(--border);
+      display: grid; place-items: center;
+      box-shadow: 0 8px 24px rgba(124,58,237,0.25);
+      flex-shrink: 0;
+    }
+    .logo img { width: 36px; height: 36px; border-radius: 10px; object-fit: contain; }
+    .brand h1 {
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.03em;
+      background: linear-gradient(90deg, #e9d5ff, #c4b5fd, #f6e05e);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .brand .sub {
+      font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-top: 2px;
+    }
+    .brand .credit {
+      font-size: 0.72rem; color: var(--muted); margin-top: 4px;
+    }
+    .brand .credit strong {
+      color: #f9a8d4; font-weight: 600;
+    }
+    .badge {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px; border-radius: 999px;
+      background: linear-gradient(135deg, rgba(246,224,94,0.2), rgba(167,139,250,0.2));
+      border: 1px solid var(--border2);
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .actions-top { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--glass2);
+      color: var(--text); cursor: pointer;
+      display: grid; place-items: center;
+      transition: transform .15s, border-color .15s;
+    }
+    .icon-btn:hover { transform: translateY(-1px); border-color: var(--accent2); }
+
+    .status-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 16px; position: relative; z-index: 1;
+    }
+    .chip {
+      font-size: 0.72rem; font-weight: 500;
+      padding: 6px 11px; border-radius: 999px;
+      background: var(--glass2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .chip strong { color: var(--text); font-weight: 600; }
+    .chip.ok { border-color: rgba(104,211,145,0.35); color: var(--ok); }
+
+    /* —— Cards —— */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .card h2 {
+      font-size: 0.95rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 12px;
+    }
+    .card h2 span.dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--gold));
+      box-shadow: 0 0 10px rgba(167,139,250,0.6);
+    }
+
+    label.lbl {
+      display: block; font-size: 0.72rem; font-weight: 500;
+      color: var(--muted); margin-bottom: 6px; letter-spacing: 0.02em;
+    }
+    .field {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--glass2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+    }
+    .field::placeholder { color: var(--muted); opacity: 0.7; }
+    textarea.field { min-height: 88px; resize: vertical; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; }
+
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .row > * { flex: 1; min-width: 120px; }
+
+    .btn {
+      appearance: none; border: none; cursor: pointer;
+      font-family: inherit; font-weight: 600; font-size: 0.88rem;
+      padding: 12px 16px; border-radius: 12px;
+      background: var(--btn); color: #fff;
+      box-shadow: 0 8px 20px rgba(109,40,217,0.35);
+      transition: transform .12s, filter .12s, box-shadow .12s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .btn.ghost:hover { border-color: var(--accent2); background: rgba(167,139,250,0.08); }
+    .btn.gold {
+      background: linear-gradient(135deg, #d69e2e, #b7791f);
+      box-shadow: 0 8px 20px rgba(214,158,46,0.3);
+    }
+    .btn.sm { padding: 9px 12px; font-size: 0.8rem; }
+
+    select.field { cursor: pointer; }
+
+    .quality-box {
+      display: none; margin-top: 12px;
+      padding: 12px; border-radius: 12px;
+      background: rgba(167,139,250,0.06);
+      border: 1px dashed var(--border);
+    }
+    .quality-box .title {
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 8px;
+    }
+
+    /* log */
+    .log {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      max-height: 220px; overflow-y: auto;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .log { background: rgba(255,255,255,0.5); }
+    .log-item { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .log-item:last-child { border-bottom: none; }
+    .ok { color: var(--ok); }
+    .err { color: var(--err); }
+    .spinner {
+      display: inline-block; width: 12px; height: 12px;
+      border: 2px solid var(--accent2); border-top-color: transparent;
+      border-radius: 50%; animation: spin .7s linear infinite;
+      margin-right: 6px; vertical-align: -2px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .progress {
+      height: 6px; border-radius: 99px; background: rgba(255,255,255,0.06);
+      overflow: hidden; margin-top: 10px; display: none;
+    }
+    .progress > i {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent2), var(--gold));
+      border-radius: 99px; transition: width .3s ease;
+    }
+
+    .history {
+      list-style: none; max-height: 160px; overflow-y: auto;
+    }
+    .history li {
+      font-size: 0.78rem; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      display: flex; justify-content: space-between; gap: 8px;
+    }
+    .history li span { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .tabs {
+      display: flex; gap: 6px; margin-bottom: 14px;
+      background: var(--glass2); padding: 5px; border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .tab {
+      flex: 1; text-align: center; padding: 10px 8px;
+      border-radius: 10px; border: none; cursor: pointer;
+      background: transparent; color: var(--muted);
+      font-family: inherit; font-weight: 600; font-size: 0.82rem;
+      transition: background .15s, color .15s;
+    }
+    .tab.active {
+      background: var(--btn); color: #fff;
+      box-shadow: 0 6px 16px rgba(109,40,217,0.3);
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    footer {
+      text-align: center; margin-top: 22px;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    footer strong { color: #f9a8d4; }
+
+    @media (max-width: 480px) {
+      .brand h1 { font-size: 1.05rem; }
+      .hero { padding: 16px; }
+      .row > * { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="logo">
+            <img src="/static/logo.png" width="36" height="36" alt="logo" onerror="this.style.display='none'" />
+          </div>
+          <div>
+            <h1>MYDownloader PRO</h1>
+            <div class="sub">Universal Social Media & Telegram Toolkit</div>
+            <div class="credit">crafted by <strong>afnirwd</strong></div>
+          </div>
+        </div>
+        <div class="actions-top">
+          <span class="badge">✦ PREMIUM</span>
+          <button class="btn sm gold" id="btn-install" type="button" style="display:none;padding:8px 12px">⬇ Install</button>
+          <button class="icon-btn" id="btn-theme" title="Theme" type="button">◐</button>
+        </div>
+      </div>
+      <div class="status-row" id="status-row">
+        <span class="chip">🍪 <strong id="st-cookies">…</strong></span>
+        <span class="chip">💾 <strong id="st-disk">…</strong></span>
+        <span class="chip">📥 <strong id="st-hist">…</strong></span>
+        <span class="chip">📁 <strong id="st-dir" style="max-width:160px;overflow:hidden;text-overflow:ellipsis">…</strong></span>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="dl" type="button">📥 Download</button>
+      <button class="tab" data-tab="slide" type="button">🎞 TikTok Slide</button>
+      <button class="tab" data-tab="settings" type="button">⚙️ Settings</button>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <section class="panel active" id="panel-dl">
+      <div class="card">
+        <h2><span class="dot"></span> Muat turun link</h2>
+        <label class="lbl">URL (YouTube · Instagram · Facebook · X · TikTok · Reddit · Threads)</label>
+        <textarea class="field" id="url" placeholder="Tampal URL di sini…&#10;Sokong batch: satu URL setiap baris"></textarea>
+        <div class="row">
+          <button class="btn ghost sm" id="btn-paste" type="button">📋 Paste</button>
+          <button class="btn ghost sm" id="btn-quality" type="button">🎚 Check quality</button>
+        </div>
+        <div class="quality-box" id="quality-box">
+          <div class="title" id="quality-title">Kualiti live</div>
+          <select class="field" id="quality"></select>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn" id="btn-download" type="button">⬇  Muat turun</button>
+        </div>
+        <div class="progress" id="progress"><i id="progress-bar"></i></div>
+        <div id="progress-meta" style="display:none;margin-top:10px;font-size:0.78rem;color:var(--muted)">
+          <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:4px">
+            <span id="progress-msg">…</span>
+            <strong id="progress-pct" style="color:var(--accent)">0%</strong>
+          </div>
+          <div id="progress-detail" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;opacity:0.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="dot"></span> Log</h2>
+        <div class="log" id="log"><div class="log-item">Sedia. Tampal URL dan tekan muat turun.</div></div>
+      </div>
+    </section>
+
+    <!-- SLIDE -->
+    <section class="panel" id="panel-slide">
+      <div class="card">
+        <h2><span class="dot"></span> TikTok Slide → Video / Gambar / Audio</h2>
+        <label class="lbl">URL TikTok Slide</label>
+        <input class="field" id="slide-url" type="url" placeholder="https://vt.tiktok.com/…" />
+        <div class="row" style="margin-top:14px">
+          <button class="btn" id="btn-slide-video" type="button">🎬 Slideshow MP4</button>
+          <button class="btn ghost" id="btn-slide-img" type="button">🖼 Gambar</button>
+          <button class="btn ghost" id="btn-slide-audio" type="button">🎵 Audio</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="dot"></span> Log slide</h2>
+        <div class="log" id="log-slide"><div class="log-item">Pilih mod selepas tampal URL slide.</div></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="panel" id="panel-settings">
+      <div class="card">
+        <h2><span class="dot"></span> Folder muat turun</h2>
+        <label class="lbl">Laluan folder</label>
+        <input class="field" id="download-dir" type="text" placeholder="./downloads" />
+        <div class="row" style="margin-top:12px">
+          <button class="btn gold" id="btn-set-dir" type="button">💾 Simpan folder</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="dot"></span> Sejarah</h2>
+        <ul class="history" id="history"></ul>
+        <div class="row" style="margin-top:12px">
+          <button class="btn ghost" id="btn-refresh" type="button">🔄 Refresh</button>
+          <button class="btn ghost" id="btn-clear-hist" type="button">🗑 Clear history</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      MYDownloader PRO · crafted by <strong>afnirwd</strong>
+    </footer>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    // Theme
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem("myd-theme") || "dark";
+    root.setAttribute("data-theme", savedTheme);
+    $("btn-theme").addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("myd-theme", next);
+    });
+
+    // Tabs
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        tab.classList.add("active");
+        $("panel-" + tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    function showLog(html, el) {
+      const box = el || $("log");
+      box.innerHTML = html;
+      box.scrollTop = box.scrollHeight;
+    }
+    function appendLog(html, el) {
+      const box = el || $("log");
+      box.innerHTML += html;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    async function refreshStatus() {
+      try {
+        const d = await fetch("/api/status").then((r) => r.json());
+        $("st-cookies").textContent = (d.cookies_ok || d.cookies) ? "Cookies OK" : "No cookies";
+        $("st-cookies").parentElement.classList.toggle("ok", !!(d.cookies_ok || d.cookies));
+        $("st-disk").textContent = (d.disk && d.disk.free) ? d.disk.free + " free" : "—";
+        $("st-hist").textContent = (d.total_downloads != null ? d.total_downloads : (d.history_count != null ? d.history_count : 0)) + " files";
+        $("st-dir").textContent = d.download_dir || "—";
+        $("st-dir").title = d.download_dir || "";
+        if (d.download_dir) $("download-dir").value = d.download_dir;
+        const ul = $("history");
+        ul.innerHTML = "";
+        (d.recent || []).forEach((item) => {
+          const li = document.createElement("li");
+          li.innerHTML = "<span>" + (item.title || item.url || "—") + "</span><em>" + (item.platform || "") + "</em>";
+          ul.appendChild(li);
+        });
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    $("btn-paste").addEventListener("click", async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) $("url").value = text.trim();
+      } catch {
+        showLog('<div class="log-item"><span class="err">❌ Clipboard tidak dibenarkan</span></div>');
+      }
+    });
+
+    $("btn-quality").addEventListener("click", async () => {
+      const url = ($("url").value.trim().split("\n")[0] || "").trim();
+      if (!url) {
+        showLog('<div class="log-item"><span class="err">❌ Masukkan URL dulu</span></div>');
+        return;
+      }
+      const btn = $("btn-quality");
+      btn.disabled = true;
+      btn.textContent = "…";
+      try {
+        const data = await fetch("/api/formats", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        }).then((r) => r.json());
+        if (!data.ok) {
+          showLog('<div class="log-item"><span class="err">❌ ' + (data.error || "Gagal") + "</span></div>");
+          return;
+        }
+        const sel = $("quality");
+        sel.innerHTML = "";
+        (data.qualities || []).forEach((q) => {
+          const opt = document.createElement("option");
+          opt.value = q.id;
+          opt.textContent = q.label + (q.note ? " · " + q.note : "");
+          if (q.audio_only) opt.dataset.audioOnly = "1";
+          sel.appendChild(opt);
+        });
+        $("quality-box").style.display = "block";
+        $("quality-title").textContent =
+          (data.platform || "") + (data.title ? " · " + data.title : "");
+      } catch (e) {
+        showLog('<div class="log-item"><span class="err">❌ ' + e + "</span></div>");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🎚 Check quality";
+      }
+    });
+
+    async function pollJob(jobId) {
+      const bar = $("progress-bar");
+      const meta = $("progress-meta");
+      const msg = $("progress-msg");
+      const pct = $("progress-pct");
+      const det = $("progress-detail");
+      $("progress").style.display = "block";
+      meta.style.display = "block";
+      let lastMsg = "";
+      for (let i = 0; i < 300; i++) {
+        await new Promise((r) => setTimeout(r, 500));
+        let job;
+        try {
+          job = await fetch("/api/job/" + jobId).then((r) => r.json());
+        } catch (e) {
+          continue;
+        }
+        const p = Math.min(100, job.progress != null ? job.progress : 0);
+        bar.style.width = p + "%";
+        pct.textContent = p + "%";
+        if (job.message) {
+          msg.textContent = job.message;
+          if (job.message !== lastMsg) {
+            appendLog('<div class="log-item"><span class="spinner"></span>' + job.message + "</div>");
+            lastMsg = job.message;
+          }
+        }
+        if (job.detail) det.textContent = job.detail;
+        else if (job.current) det.textContent = job.current;
+
+        if (job.status === "done") {
+          bar.style.width = "100%";
+          pct.textContent = "100%";
+          if (job.ok) {
+            showLog('<div class="log-item"><span class="ok">✅ ' + (job.summary || job.message || "Selesai") + "</span></div>");
+          } else {
+            showLog('<div class="log-item"><span class="err">❌ ' + (job.error || job.summary || job.message || "Gagal") + "</span></div>");
+          }
+          (job.results || []).forEach(function (r) {
+            var cls = r.ok ? "ok" : "err";
+            var icon = r.ok ? "✅" : "❌";
+            appendLog('<div class="log-item"><span class="' + cls + '">' + icon + " " + (r.platform || "") + " · " + (r.message || "") + "</span></div>");
+          });
+          msg.textContent = job.summary || "Selesai";
+          det.textContent = "";
+          refreshStatus();
+          return;
+        }
+        if (job.status === "error") {
+          showLog('<div class="log-item"><span class="err">❌ ' + (job.error || "Gagal") + "</span></div>");
+          msg.textContent = job.error || "Error";
+          return;
+        }
+      }
+      showLog('<div class="log-item"><span class="err">❌ Timeout — semak log Termux</span></div>');
+    }
+
+    $("btn-download").addEventListener("click", async () => {
+      const raw = $("url").value.trim();
+      if (!raw) {
+        showLog('<div class="log-item"><span class="err">❌ URL kosong</span></div>');
+        return;
+      }
+      const urls = raw.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+      const qualityEl = $("quality");
+      let quality = null;
+      let audio_only = false;
+      if ($("quality-box").style.display !== "none" && qualityEl.value) {
+        quality = qualityEl.value;
+        const opt = qualityEl.selectedOptions[0];
+        audio_only = !!(opt && opt.dataset.audioOnly === "1");
+        if (quality === "audio") {
+          quality = "best";
+          audio_only = true;
+        }
+      }
+      const btn = $("btn-download");
+      btn.disabled = true;
+      showLog('<div class="log-item"><span class="spinner"></span>Memulakan ' + urls.length + " pautan…</div>");
+      $("progress-bar").style.width = "3%";
+      $("progress").style.display = "block";
+      $("progress-meta").style.display = "block";
+      $("progress-msg").textContent = "Memulakan…";
+      $("progress-pct").textContent = "0%";
+      $("progress-detail").textContent = "";
+      try {
+        const data = await fetch("/api/download", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ urls, quality, audio_only }),
+        }).then((r) => r.json());
+        if (!data.ok) {
+          showLog('<div class="log-item"><span class="err">❌ ' + (data.error || "Gagal") + "</span></div>");
+          return;
+        }
+        if (data.job_id) await pollJob(data.job_id);
+        else {
+          showLog('<div class="log-item"><span class="ok">✅ ' + (data.message || "OK") + "</span></div>");
+          refreshStatus();
+        }
+      } catch (e) {
+        showLog('<div class="log-item"><span class="err">❌ ' + e + "</span></div>");
+      } finally {
+        btn.disabled = false;
+        setTimeout(() => {
+          $("progress").style.display = "none";
+          $("progress-bar").style.width = "0%";
+          $("progress-meta").style.display = "none";
+        }, 2500);
+      }
+    });
+
+    async function runSlide(mode) {
+      const url = $("slide-url").value.trim();
+      if (!url) {
+        showLog('<div class="log-item"><span class="err">❌ Masukkan URL slide</span></div>', $("log-slide"));
+        return;
+      }
+      showLog('<div class="log-item"><span class="spinner"></span>TikTok slide (' + mode + ")…</div>", $("log-slide"));
+      try {
+        const data = await fetch("/api/tiktok-slide", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, mode }),
+        }).then((r) => r.json());
+        if (data.ok) {
+          showLog('<div class="log-item"><span class="ok">✅ Slide ' + mode + " OK</span></div>", $("log-slide"));
+          refreshStatus();
+        } else {
+          showLog('<div class="log-item"><span class="err">❌ ' + (data.error || data.message || "Failed") + "</span></div>", $("log-slide"));
+        }
+      } catch (e) {
+        showLog('<div class="log-item"><span class="err">❌ ' + e + "</span></div>", $("log-slide"));
+      }
+    }
+    $("btn-slide-video").addEventListener("click", () => runSlide("video"));
+    $("btn-slide-img").addEventListener("click", () => runSlide("images"));
+    $("btn-slide-audio").addEventListener("click", () => runSlide("audio"));
+
+    $("btn-set-dir").addEventListener("click", async () => {
+      const path = $("download-dir").value.trim();
+      if (!path) return;
+      try {
+        const data = await fetch("/api/set-directory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ path }),
+        }).then((r) => r.json());
+        if (data.ok) {
+          showLog('<div class="log-item"><span class="ok">✅ Folder diset: ' + (data.path || path) + "</span></div>");
+          refreshStatus();
+        } else {
+          showLog('<div class="log-item"><span class="err">❌ ' + (data.error || "Gagal") + "</span></div>");
+        }
+      } catch (e) {
+        showLog('<div class="log-item"><span class="err">❌ ' + e + "</span></div>");
+      }
+    });
+
+    $("btn-refresh").addEventListener("click", refreshStatus);
+    $("btn-clear-hist").addEventListener("click", async () => {
+      if (!confirm("Padam semua sejarah?")) return;
+      await fetch("/api/clear-history", { method: "POST" });
+      refreshStatus();
+    });
+
+    // —— PWA install ——
+    let deferredPrompt = null;
+    const btnInstall = $("btn-install");
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (btnInstall) btnInstall.style.display = "inline-flex";
+    });
+    if (btnInstall) {
+      btnInstall.addEventListener("click", async () => {
+        if (!deferredPrompt) {
+          // iOS / browser tanpa beforeinstallprompt
+          alert(
+            "Untuk install:\n" +
+            "• Chrome/Edge: menu ⋮ → Install app / Add to Home screen\n" +
+            "• iPhone Safari: Share → Add to Home Screen"
+          );
+          return;
+        }
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        btnInstall.style.display = "none";
+      });
+    }
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      if (btnInstall) btnInstall.style.display = "none";
+    });
+    // Tunjuk butang juga jika standalone belum
+    if (!window.matchMedia("(display-mode: standalone)").matches) {
+      setTimeout(() => {
+        if (btnInstall && !deferredPrompt) btnInstall.style.display = "inline-flex";
+      }, 1500);
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {});
+    }
+    refreshStatus();
+  </script>
+</body>
+</html>

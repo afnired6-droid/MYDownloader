@@ -1,0 +1,15 @@
+# MYDownloader PRO v2.1.0 — dependencies
+hydrogram>=0.2.0
+TgCrypto>=1.2.5
+yt-dlp>=2024.8.0
+ffmpeg-python>=0.2.0
+rich>=13.7.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+aiohttp>=3.9.0
+pyperclip>=1.8.2
+flask>=3.0.0
+# Recommended:
+pip install gallery-dl
+# System:
+ffmpeg, aria2 (optional)
